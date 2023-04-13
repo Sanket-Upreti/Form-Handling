@@ -1,0 +1,80 @@
+<!-- this is how forms are written in vanilla js with few validation -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Form with Validation</title>
+    <style>
+        .error-message {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Form in vanilla js</h1>
+    <form id="myForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+        <span id="nameError" class="error-message"></span><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email">
+        <span id="emailError" class="error-message"></span><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+        <span id="passwordError" class="error-message"></span><br>
+
+        <button type="submit" value="Submit">
+    </form>
+
+    <script>
+        const form = document.getElementById('myForm');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            nameError.textContent = '';
+            emailError.textContent = '';
+            passwordError.textContent = '';
+
+            let isValid = true;
+
+            if (nameInput.value.trim() === '') {
+                nameError.textContent = 'Name is required';
+                isValid = false;
+            }
+
+            if (emailInput.value.trim() === '') {
+                emailError.textContent = 'Email is required';
+                isValid = false;
+            } else if (!isValidEmail(emailInput.value)) {
+                emailError.textContent = 'Email is not valid';
+                isValid = false;
+            }
+
+            if (passwordInput.value.trim() === '') {
+                passwordError.textContent = 'Password is required';
+                isValid = false;
+            } else if (passwordInput.value.length < 6) {
+                passwordError.textContent = 'Password must be at least 6 characters';
+                isValid = false;
+            }
+
+            if (isValid) {
+                form.submit();
+            }
+        });
+
+        const isValidEmail= (email)=>{
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+    </script>
+</body>
+</html>
